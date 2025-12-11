@@ -91,3 +91,4 @@ Pour lancer le projet localement :
 
 ## 📸 Captures d'écran (Optionnel)
 <!-- Vous pouvez ajouter ici 1 ou 2 screenshots de votre interface -->
+Initialiser le README
