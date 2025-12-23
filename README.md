@@ -7,7 +7,7 @@
 
 <!-- REMPLACEZ LES LIENS CI-DESSOUS -->
 - **APPLICATION DÉPLOYÉE (Live Demo) :** [CLIQUEZ ICI POUR VOIR LE SITE](https://)
-- **Repository GitHub :** [Lien vers ce repo](https://github.com/newbite-gains/mini_projet_dev)
+- **Repository GitHub :** [Lien vers ce repo](https://github.com/newbite-gains/mini_projet_dev/tree/main)
 
 ---
 
