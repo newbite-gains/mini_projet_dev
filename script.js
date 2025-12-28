@@ -1,89 +1,169 @@
-// Variable globale pour stocker les livres (un array d'objets)
+// Variable globale pour stocker les livres
 let livres = [];
+let compteurId = 1; // Pour générer des IDs uniques
 
-// Fonction pour le login (vérifie identifiants simples)
+// Fonction pour le login
 function login(event) {
-    event.preventDefault(); // Empêche le formulaire d'envoyer une requête réelle
-    let username = document.getElementById('username').value; // Récupère la valeur du input
+    event.preventDefault();
+    let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
-    if (username === 'admin' && password === 'admin') { // Condition simple
-        window.location.href = 'dashboard.html'; // Redirige vers dashboard
+    if (username === 'admin' && password === 'admin') {
+        window.location.href = 'dashboard.html';
     } else {
-        document.getElementById('errorMsg').textContent = 'Identifiants incorrects'; // Affiche erreur
+        document.getElementById('errorMsg').textContent = 'Identifiants incorrects';
     }
 }
 
-// Fonction pour déconnexion (retour au login)
+// Fonction pour déconnexion
 function logout() {
     window.location.href = 'index.html';
 }
 
-// Fonction pour charger les livres depuis localStorage
-function chargerLivres() {
-    let data = localStorage.getItem('livres'); // Récupère le texte JSON
-    if (data) { // Si existe
-        livres = JSON.parse(data); // Convertit JSON en array d'objets
-    }
-    afficherLivres(); // Appelle la fonction d'affichage
-}
-
-// Fonction pour afficher les livres dans la table
-function afficherLivres() {
-    let tableBody = document.querySelector('#livreTable tbody'); // Trouve le corps de la table
-    tableBody.innerHTML = ''; // Vide la table avant d'ajouter
-    for (let i = 0; i < livres.length; i++) { // Boucle sur l'array
-        let row = document.createElement('tr'); // Crée une ligne <tr>
-        row.innerHTML = `
-            <td>${i + 1}</td> <!-- ID simple basé sur index -->
-            <td>${livres[i].titre}</td> <!-- Valeur de l'objet -->
-            <td>${livres[i].auteurId}</td>
-            <td>${livres[i].categorieId}</td>
-            <td>
-                <button onclick="modifierLivre(${i})">Modifier</button> <!-- Appel fonction avec index -->
-                <button onclick="supprimerLivre(${i})">Supprimer</button>
-            </td>
-        `;
-        tableBody.appendChild(row); // Ajoute la ligne à la table
-    }
-}
-
-// Fonction pour ajouter ou modifier un livre
-function ajouterOuModifierLivre(event) {
-    event.preventDefault(); // Empêche envoi réel
-    let id = document.getElementById('livreId').value; // Vérifie si ID existe (pour modif)
-    let titre = document.getElementById('titre').value;
-    let auteurId = document.getElementById('auteurId').value;
-    let categorieId = document.getElementById('categorieId').value;
+// Fonction qui affiche une section et cache les autres
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(function(section) {
+        section.style.display = 'none';
+    });
     
-    let livre = { // Crée un objet simple
+    var sectionToShow = document.getElementById('section-' + sectionId);
+    if (sectionToShow) {
+        sectionToShow.style.display = 'block';
+    }
+}
+
+// Au chargement de la page
+window.onload = function() {
+    showSection('accueil');
+    
+    // Attacher l'événement au formulaire de livre si on est sur dashboard
+    const formLivre = document.getElementById('formLivre');
+    if (formLivre) {
+        formLivre.addEventListener('submit', soumettreFormulaireLivre);
+    }
+};
+
+// ========== FONCTIONS CRUD POUR LES LIVRES ==========
+
+// Afficher le formulaire d'ajout
+function afficherFormulaireAjout() {
+    document.getElementById('formulaireLivre').style.display = 'block';
+    document.getElementById('titreFormulaire').textContent = 'Ajouter un livre';
+    document.getElementById('btnAjouterLivre').style.display = 'none';
+    document.getElementById('formLivre').reset();
+    document.getElementById('livreId').value = '';
+}
+
+// Annuler le formulaire
+function annulerFormulaire() {
+    document.getElementById('formulaireLivre').style.display = 'none';
+    document.getElementById('btnAjouterLivre').style.display = 'inline-block';
+    document.getElementById('formLivre').reset();
+}
+
+// Soumettre le formulaire (ajout ou modification)
+function soumettreFormulaireLivre(event) {
+    event.preventDefault();
+    
+    // Récupérer les valeurs du formulaire
+    const id = document.getElementById('livreId').value;
+    const titre = document.getElementById('titre').value;
+    const auteur = document.getElementById('auteur').value;
+    const isbn = document.getElementById('isbn').value;
+    const annee = document.getElementById('annee').value;
+    const categorie = document.getElementById('categorie').value;
+    
+    if (id) {
+        // Modification d'un livre existant
+        modifierLivre(parseInt(id), titre, auteur, isbn, annee, categorie);
+    } else {
+        // Ajout d'un nouveau livre
+        ajouterLivre(titre, auteur, isbn, annee, categorie);
+    }
+    
+    // Réinitialiser et fermer le formulaire
+    annulerFormulaire();
+    afficherLivres();
+}
+
+// Ajouter un livre
+function ajouterLivre(titre, auteur, isbn, annee, categorie) {
+    const nouveauLivre = {
+        id: compteurId++,
         titre: titre,
-        auteurId: auteurId,
-        categorieId: categorieId
+        auteur: auteur,
+        isbn: isbn,
+        annee: annee,
+        categorie: categorie
     };
     
-    if (id !== '') { // Si ID existe, c'est une modification
-        livres[parseInt(id)] = livre; // Remplace l'objet à l'index
-    } else { // Sinon, ajout
-        livres.push(livre); // Ajoute à la fin de l'array
+    livres.push(nouveauLivre);
+}
+
+// Modifier un livre
+function modifierLivre(id, titre, auteur, isbn, annee, categorie) {
+    const index = livres.findIndex(livre => livre.id === id);
+    if (index !== -1) {
+        livres[index] = {
+            id: id,
+            titre: titre,
+            auteur: auteur,
+            isbn: isbn,
+            annee: annee,
+            categorie: categorie
+        };
     }
+}
+
+// Supprimer un livre
+function supprimerLivre(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')) {
+        livres = livres.filter(livre => livre.id !== id);
+        afficherLivres();
+    }
+}
+
+// Afficher le formulaire de modification avec les données du livre
+function afficherFormulaireModification(id) {
+    const livre = livres.find(l => l.id === id);
+    if (livre) {
+        document.getElementById('formulaireLivre').style.display = 'block';
+        document.getElementById('titreFormulaire').textContent = 'Modifier un livre';
+        document.getElementById('btnAjouterLivre').style.display = 'none';
+        
+        // Remplir le formulaire avec les données du livre
+        document.getElementById('livreId').value = livre.id;
+        document.getElementById('titre').value = livre.titre;
+        document.getElementById('auteur').value = livre.auteur;
+        document.getElementById('isbn').value = livre.isbn;
+        document.getElementById('annee').value = livre.annee;
+        document.getElementById('categorie').value = livre.categorie;
+    }
+}
+
+// Afficher tous les livres dans le tableau
+function afficherLivres() {
+    const tbody = document.getElementById('corpsTableLivres');
+    tbody.innerHTML = ''; // Vider le tableau
     
-    localStorage.setItem('livres', JSON.stringify(livres)); // Sauvegarde en JSON
-    document.getElementById('livreForm').reset(); // Vide le formulaire
-    document.getElementById('livreId').value = ''; // Reset ID
-    afficherLivres(); // Rafraîchit la table
-}
-
-// Fonction pour préparer la modification (remplit le formulaire)
-function modifierLivre(index) {
-    document.getElementById('livreId').value = index; // Met l'index dans le hidden
-    document.getElementById('titre').value = livres[index].titre;
-    document.getElementById('auteurId').value = livres[index].auteurId;
-    document.getElementById('categorieId').value = livres[index].categorieId;
-}
-
-// Fonction pour supprimer un livre
-function supprimerLivre(index) {
-    livres.splice(index, 1); // Supprime l'élément à l'index
-    localStorage.setItem('livres', JSON.stringify(livres)); // Sauvegarde
-    afficherLivres(); // Rafraîchit
+    if (livres.length === 0) {
+        // Si aucun livre, afficher un message
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Aucun livre enregistré</td></tr>';
+    } else {
+        // Parcourir tous les livres et créer une ligne pour chacun
+        livres.forEach(livre => {
+            const ligne = document.createElement('tr');
+            ligne.innerHTML = `
+                <td>${livre.titre}</td>
+                <td>${livre.auteur}</td>
+                <td>${livre.isbn}</td>
+                <td>${livre.annee}</td>
+                <td>${livre.categorie}</td>
+                <td>
+                    <button onclick="afficherFormulaireModification(${livre.id})">Modifier</button>
+                    <button onclick="supprimerLivre(${livre.id})" style="background-color: #dc3545; color: white;">Supprimer</button>
+                </td>
+            `;
+            tbody.appendChild(ligne);
+        });
+    }
 }
