@@ -27,6 +27,8 @@
 <!-- Indiquez le thème choisi parmi la liste ou votre sujet personnalisé -->
 *   Thème : Gestion de Bibliothèque 
 *   **Description :** Une brève explication du but de l'application.
+*   Application Backoffice de gestion bibliothèque qui gère 5 entités : Livres / Auteurs / Adhérents/ Emprunts / Catégories.
+
 
 ---
 
@@ -34,13 +36,11 @@
 <!-- Cochez les cases [x] pour les fonctionnalités terminées. Laissez [ ] pour ce qui n'est pas fait. -->
 
 ### Fonctionnalités Principales
-- [ ] **CRUD 1 :** [Nom Entité, ex: Utilisateurs] (Create, Read, Update, Delete)
-- [ ] **CRUD 2 :** [Nom Entité]
-- [ ] **CRUD 3 :** [Nom Entité]
-- [ ] **CRUD 4 :** [Nom Entité]
-- [ ] **CRUD 5 :** [Nom Entité]
-- [ ] **Recherche & Filtres** dans les tableaux
-- [ ] **Pagination**
+- [x] **CRUD 1 : Livres
+- [ ] **CRUD 2 :    Auteurs
+- [ ] **CRUD 3 :   Adhérents
+- [ ] **CRUD 4 :   Emprunts 
+- [ ] **CRUD 5 :   Catégories
 
 ### Dashboard & Data
 - [ ] **KPIs :** Cartes avec chiffres clés (Total utilisateurs, revenus, etc.)
@@ -52,7 +52,7 @@
 
 ### Technique & Bonus
 - [ ] **Export :** (PDF ou CSV)
-- [ ] **Architecture :** Code organisé sans Framework (Vanilla JS)
+- [x] **Architecture :** Code organisé sans Framework (Vanilla JS)
 - [ ] **Design :** Interface Responsive (Mobile/Tablette)
 
 ---
