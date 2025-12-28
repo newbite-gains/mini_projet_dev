@@ -2,6 +2,10 @@
 let livres = [];
 let compteurId = 1; // Pour générer des IDs uniques
 
+// Variable globale pour stocker les adhérents
+let adherents = [];
+let compteurIdAdherent = 1; // Pour générer des IDs uniques pour les adhérents
+
 // Fonction pour le login
 function login(event) {
     event.preventDefault();
@@ -27,7 +31,7 @@ function showSection(sectionId) {
     
     var sectionToShow = document.getElementById('section-' + sectionId);
     if (sectionToShow) {
-        sectionToShow.style.display = 'block';
+        sectionToShow.style. display = 'block';
     }
 }
 
@@ -39,6 +43,12 @@ window.onload = function() {
     const formLivre = document.getElementById('formLivre');
     if (formLivre) {
         formLivre.addEventListener('submit', soumettreFormulaireLivre);
+    }
+    
+    // Attacher l'événement au formulaire d'adhérent si on est sur dashboard
+    const formAdherent = document.getElementById('formAdherent');
+    if (formAdherent) {
+        formAdherent.addEventListener('submit', soumettreFormulaireAdherent);
     }
 };
 
@@ -69,7 +79,7 @@ function soumettreFormulaireLivre(event) {
     const titre = document.getElementById('titre').value;
     const auteur = document.getElementById('auteur').value;
     const isbn = document.getElementById('isbn').value;
-    const annee = document.getElementById('annee').value;
+    const annee = document. getElementById('annee').value;
     const categorie = document.getElementById('categorie').value;
     
     if (id) {
@@ -89,7 +99,7 @@ function soumettreFormulaireLivre(event) {
 function ajouterLivre(titre, auteur, isbn, annee, categorie) {
     const nouveauLivre = {
         id: compteurId++,
-        titre: titre,
+        titre:  titre,
         auteur: auteur,
         isbn: isbn,
         annee: annee,
@@ -161,6 +171,132 @@ function afficherLivres() {
                 <td>
                     <button onclick="afficherFormulaireModification(${livre.id})">Modifier</button>
                     <button onclick="supprimerLivre(${livre.id})" style="background-color: #dc3545; color: white;">Supprimer</button>
+                </td>
+            `;
+            tbody.appendChild(ligne);
+        });
+    }
+}
+
+// ========== FONCTIONS CRUD POUR LES ADHÉRENTS ==========
+
+// Afficher le formulaire d'ajout d'adhérent
+function afficherFormulaireAjoutAdherent() {
+    document.getElementById('formulaireAdherent').style.display = 'block';
+    document.getElementById('titreFormulaireAdherent').textContent = 'Ajouter un adhérent';
+    document.getElementById('btnAjouterAdherent').style.display = 'none';
+    document. getElementById('formAdherent').reset();
+    document.getElementById('adherentId').value = '';
+}
+
+// Annuler le formulaire d'adhérent
+function annulerFormulaireAdherent() {
+    document.getElementById('formulaireAdherent').style.display = 'none';
+    document.getElementById('btnAjouterAdherent').style.display = 'inline-block';
+    document.getElementById('formAdherent').reset();
+}
+
+// Soumettre le formulaire d'adhérent (ajout ou modification)
+function soumettreFormulaireAdherent(event) {
+    event.preventDefault();
+    
+    // Récupérer les valeurs du formulaire
+    const id = document.getElementById('adherentId').value;
+    const nom = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const email = document.getElementById('email').value;
+    const telephone = document.getElementById('telephone').value;
+    const dateAdhesion = document.getElementById('dateAdhesion').value;
+    
+    if (id) {
+        // Modification d'un adhérent existant
+        modifierAdherent(parseInt(id), nom, prenom, email, telephone, dateAdhesion);
+    } else {
+        // Ajout d'un nouvel adhérent
+        ajouterAdherent(nom, prenom, email, telephone, dateAdhesion);
+    }
+    
+    // Réinitialiser et fermer le formulaire
+    annulerFormulaireAdherent();
+    afficherAdherents();
+}
+
+// Ajouter un adhérent
+function ajouterAdherent(nom, prenom, email, telephone, dateAdhesion) {
+    const nouvelAdherent = {
+        id: compteurIdAdherent++,
+        nom: nom,
+        prenom: prenom,
+        email: email,
+        telephone: telephone,
+        dateAdhesion: dateAdhesion
+    };
+    
+    adherents.push(nouvelAdherent);
+}
+
+// Modifier un adhérent
+function modifierAdherent(id, nom, prenom, email, telephone, dateAdhesion) {
+    const index = adherents.findIndex(adherent => adherent. id === id);
+    if (index !== -1) {
+        adherents[index] = {
+            id: id,
+            nom: nom,
+            prenom:  prenom,
+            email: email,
+            telephone: telephone,
+            dateAdhesion: dateAdhesion
+        };
+    }
+}
+
+// Supprimer un adhérent
+function supprimerAdherent(id) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet adhérent ?')) {
+        adherents = adherents.filter(adherent => adherent.id !== id);
+        afficherAdherents();
+    }
+}
+
+// Afficher le formulaire de modification avec les données de l'adhérent
+function afficherFormulaireModificationAdherent(id) {
+    const adherent = adherents. find(a => a.id === id);
+    if (adherent) {
+        document.getElementById('formulaireAdherent').style.display = 'block';
+        document.getElementById('titreFormulaireAdherent').textContent = 'Modifier un adhérent';
+        document.getElementById('btnAjouterAdherent').style.display = 'none';
+        
+        // Remplir le formulaire avec les données de l'adhérent
+        document.getElementById('adherentId').value = adherent.id;
+        document.getElementById('nom').value = adherent.nom;
+        document.getElementById('prenom').value = adherent.prenom;
+        document.getElementById('email').value = adherent.email;
+        document.getElementById('telephone').value = adherent.telephone;
+        document. getElementById('dateAdhesion').value = adherent.dateAdhesion;
+    }
+}
+
+// Afficher tous les adhérents dans le tableau
+function afficherAdherents() {
+    const tbody = document.getElementById('corpsTableAdherents');
+    tbody.innerHTML = ''; // Vider le tableau
+    
+    if (adherents.length === 0) {
+        // Si aucun adhérent, afficher un message
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Aucun adhérent enregistré</td></tr>';
+    } else {
+        // Parcourir tous les adhérents et créer une ligne pour chacun
+        adherents.forEach(adherent => {
+            const ligne = document.createElement('tr');
+            ligne.innerHTML = `
+                <td>${adherent.nom}</td>
+                <td>${adherent.prenom}</td>
+                <td>${adherent. email}</td>
+                <td>${adherent.telephone}</td>
+                <td>${adherent. dateAdhesion}</td>
+                <td>
+                    <button onclick="afficherFormulaireModificationAdherent(${adherent.id})">Modifier</button>
+                    <button onclick="supprimerAdherent(${adherent.id})" style="background-color: #dc3545; color: white;">Supprimer</button>
                 </td>
             `;
             tbody.appendChild(ligne);
