@@ -38,7 +38,7 @@
 ### Fonctionnalités Principales
 - [x] **CRUD 1 : Livres
 - [ ] **CRUD 2 :    Auteurs
-- [ ] **CRUD 3 :   Adhérents
+- [x] **CRUD 3 :   Adhérents
 - [ ] **CRUD 4 :   Emprunts 
 - [ ] **CRUD 5 :   Catégories
 
