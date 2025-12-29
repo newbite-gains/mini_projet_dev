@@ -1,1 +1,182 @@
-placeholder
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestion de Bibliothèque</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Barre du haut -->
+    <nav class="navbar">
+        <div class="logo">Bibliothèque</div>
+        <button onclick="logout()">Déconnexion</button>
+    </nav>
+
+    <!-- Menu latéral -->
+    <div class="sidebar">
+        <h3>Entités</h3>
+        <a href="#" onclick="showSection('accueil')" class="menu-link">Accueil</a>
+        <a href="#" onclick="showSection('livres')" class="menu-link">Livres</a>
+        <a href="#" onclick="showSection('auteurs')" class="menu-link">Auteurs</a>
+        <a href="#" onclick="showSection('adherents')" class="menu-link">Adhérents</a>
+        <a href="#" onclick="showSection('emprunts')" class="menu-link">Emprunts</a>
+        <a href="#" onclick="showSection('categories')" class="menu-link">Catégories</a>
+    </div>
+
+    <!-- Zone contenu principal -->
+    <div class="content">
+
+        <!-- SECTION ACCUEIL -->
+        <div id="section-accueil" class="section">
+            <h2>Bienvenue sur le Dashboard</h2>
+            <p>Sélectionnez une entité dans le menu à gauche pour commencer.</p>
+        </div>
+
+        <!-- SECTION LIVRES -->
+        <section id="section-livres" class="section" style="display: none;">
+            <h2>Gestion des Livres</h2>
+            
+            <!-- Bouton pour afficher le formulaire d'ajout -->
+            <button onclick="afficherFormulaireAjout()" id="btnAjouterLivre">+ Ajouter un livre</button>
+            
+            <!-- Formulaire d'ajout/modification (caché par défaut) -->
+            <div id="formulaireLivre" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; max-width: 500px;">
+                <h3 id="titreFormulaire">Ajouter un livre</h3>
+                <form id="formLivre">
+                    <input type="hidden" id="livreId">
+                    
+                    <label for="titre">Titre :</label>
+                    <input type="text" id="titre" required>
+                    
+                    <label for="auteur">Auteur :</label>
+                    <input type="text" id="auteur" required>
+                    
+                    <label for="isbn">ISBN :</label>
+                    <input type="text" id="isbn" required>
+                    
+                    <label for="annee">Année de publication :</label>
+                    <input type="number" id="annee" required>
+                    
+                    <label for="categorie">Catégorie :</label>
+                    <input type="text" id="categorie" required>
+                    
+                    <div style="margin-top: 10px;">
+                        <button type="submit" id="btnSoumettre">Enregistrer</button>
+                        <button type="button" onclick="annulerFormulaire()">Annuler</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tableau des livres -->
+            <div style="margin-top: 30px;">
+                <h3>Liste des livres</h3>
+                <table id="tableLivres">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>ISBN</th>
+                            <th>Année</th>
+                            <th>Catégorie</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpsTableLivres">
+                        <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION AUTEURS -->
+        <div id="section-auteurs" class="section" style="display: none;">
+            <h2>Gestion des Auteurs</h2>
+            <p>Ici viendra le formulaire et le tableau des auteurs.</p>
+        </div>
+
+        <!-- SECTION ADHÉRENTS -->
+      <!-- Section Adhérents -->
+<section id="section-adherents" class="section" style="display: none;">
+    <h2>Gestion des Adhérents</h2>
+    
+    <button id="btnAjouterAdherent" onclick="afficherFormulaireAjoutAdherent()" style="margin-bottom: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        +Ajouter un adhérent
+    </button>
+    
+    <!-- Formulaire d'adhérent -->
+    <div id="formulaireAdherent" style="display: none; margin-bottom: 30px; padding: 20px; border:  1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
+        <h3 id="titreFormulaireAdherent">Ajouter un adhérent</h3>
+        <form id="formAdherent">
+            <input type="hidden" id="adherentId" value="">
+            
+            <div style="margin-bottom: 15px;">
+                <label for="nom">Nom :</label>
+                <input type="text" id="nom" name="nom" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="prenom">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required style="width:  100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="telephone">Téléphone :</label>
+                <input type="tel" id="telephone" name="telephone" required style="width: 100%; padding: 8px; border:  1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="dateAdhesion">Date d'adhésion :</label>
+                <input type="date" id="dateAdhesion" name="dateAdhesion" required style="width:  100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+                 Valider
+            </button>
+            <button type="button" onclick="annulerFormulaireAdherent()" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                 Annuler
+            </button>
+        </form>
+    </div>
+    
+    <!-- Tableau des adhérents -->
+    <table style="width: 100%; border-collapse: collapse; margin-top:  20px;">
+        <thead>
+            <tr style="background-color: #007bff; color: white;">
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Nom</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Prénom</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Email</th>
+                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Téléphone</th>
+                <th style="padding: 12px; text-align: left; border:  1px solid #ddd;">Date d'adhésion</th>
+                <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="corpsTableAdherents">
+            <tr><td colspan="6" style="text-align: center; padding: 20px;">Aucun adhérent enregistré</td></tr>
+        </tbody>
+    </table>
+</section>
+        <!-- SECTION EMPRUNTS -->
+        <div id="section-emprunts" class="section" style="display: none;">
+            <h2>Gestion des Emprunts</h2>
+            <p>(À compléter plus tard)</p>
+        </div>
+
+        <!-- SECTION CATÉGORIES -->
+        <div id="section-categories" class="section" style="display: none;">
+            <h2>Gestion des Catégories</h2>
+            <p>(À compléter plus tard)</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
