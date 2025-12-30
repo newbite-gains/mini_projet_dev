@@ -37,10 +37,10 @@
 
 ### Fonctionnalités Principales
 - [x] **CRUD 1 : Livres
-- [ x] **CRUD 2 :    Auteurs
+- [x] **CRUD 2 :    Auteurs
 - [x] **CRUD 3 :   Adhérents
-- [x ] **CRUD 4 :   Emprunts 
-- [ x] **CRUD 5 :   Catégories
+- [x] **CRUD 4 :   Emprunts 
+- [x] **CRUD 5 :   Catégories
 
 ### Dashboard & Data
 - [ ] **KPIs :** Cartes avec chiffres clés (Total utilisateurs, revenus, etc.)
