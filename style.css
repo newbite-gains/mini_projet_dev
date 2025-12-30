@@ -13,6 +13,27 @@ body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
 /* Liens dans la sidebar */
 .sidebar a { display: block; margin: 10px 0; text-decoration: none; color: #333; }
 
+/* Boutons dans la sidebar (style simple sans boîte) */
+.sidebar button { 
+    display: block; 
+    width: 100%; 
+    margin: 8px 0; 
+    padding: 12px 0; 
+    background: transparent; 
+    color: #333; 
+    border: none; 
+    border-bottom: 1px solid #e0e0e0; 
+    cursor: pointer; 
+    text-align: left; 
+    font-size: 16px; 
+    transition: color 0.2s;
+}
+
+/* Effet au survol des boutons (change juste la couleur) */
+.sidebar button:hover { 
+    color: #007bff; 
+}
+
 /* Contenu principal décalé pour la sidebar */
 .content { margin-left: 220px; padding: 20px; }
 
