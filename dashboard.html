@@ -5,178 +5,240 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gestion de Bibliothèque</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="livres.css">
+    <link rel="stylesheet" href="auteurs.css">
+    <link rel="stylesheet" href="adherents.css">
+    <link rel="stylesheet" href="emprunts.css">
+    <link rel="stylesheet" href="categories.css">
 </head>
 <body>
-
-    <!-- Barre du haut -->
     <nav class="navbar">
         <div class="logo">Bibliothèque</div>
         <button onclick="logout()">Déconnexion</button>
     </nav>
-
-    <!-- Menu latéral -->
     <div class="sidebar">
         <h3>Entités</h3>
-        <a href="#" onclick="showSection('accueil')" class="menu-link">Accueil</a>
-        <a href="#" onclick="showSection('livres')" class="menu-link">Livres</a>
-        <a href="#" onclick="showSection('auteurs')" class="menu-link">Auteurs</a>
-        <a href="#" onclick="showSection('adherents')" class="menu-link">Adhérents</a>
-        <a href="#" onclick="showSection('emprunts')" class="menu-link">Emprunts</a>
-        <a href="#" onclick="showSection('categories')" class="menu-link">Catégories</a>
+        <!-- Boutons pour afficher chaque entité (remplace les liens <a>) -->
+        <button onclick="afficherEntite('livres')">Livres</button>
+        <button onclick="afficherEntite('auteurs')">Auteurs</button>
+        <button onclick="afficherEntite('adherents')">Adhérents</button>
+        <button onclick="afficherEntite('emprunts')">Emprunts</button>
+        <button onclick="afficherEntite('categories')">Catégories</button>
     </div>
-
-    <!-- Zone contenu principal -->
     <div class="content">
-
-        <!-- SECTION ACCUEIL -->
-        <div id="section-accueil" class="section">
+        <!-- Section d'accueil (affichée par défaut) -->
+        <div id="accueil" class="entite-section">
             <h2>Bienvenue sur le Dashboard</h2>
-            <p>Sélectionnez une entité dans le menu à gauche pour commencer.</p>
+            <p>Sélectionnez une entité dans la sidebar.</p>
         </div>
-
-        <!-- SECTION LIVRES -->
-        <section id="section-livres" class="section" style="display: none;">
+        
+        <!-- Section Livres (masquée par défaut) -->
+        <div id="livres" class="entite-section">
             <h2>Gestion des Livres</h2>
+            <!-- Bouton pour ajouter un nouveau livre -->
+            <button onclick="afficherFormulaireLivre()">Ajouter un livre</button>
             
-            <!-- Bouton pour afficher le formulaire d'ajout -->
-            <button onclick="afficherFormulaireAjout()" id="btnAjouterLivre">+ Ajouter un livre</button>
+            <!-- Formulaire pour ajouter/modifier un livre (masqué par défaut) -->
+            <form id="livreForm" onsubmit="ajouterOuModifierLivre(event)">
+                <h3 id="formTitre">Ajouter un livre</h3>
+                <!-- Champ caché pour stocker l'index du livre en modification -->
+                <input type="hidden" id="livreId">
+                <label for="titre">Titre :</label>
+                <input type="text" id="titre" required>
+                <label for="auteurId">ID Auteur :</label>
+                <input type="number" id="auteurId" required>
+                <label for="categorieId">ID Catégorie :</label>
+                <input type="number" id="categorieId" required>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="cacherFormulaireLivre()">Annuler</button>
+            </form>
             
-            <!-- Formulaire d'ajout/modification (caché par défaut) -->
-            <div id="formulaireLivre" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; max-width: 500px;">
-                <h3 id="titreFormulaire">Ajouter un livre</h3>
-                <form id="formLivre">
-                    <input type="hidden" id="livreId">
-                    
-                    <label for="titre">Titre :</label>
-                    <input type="text" id="titre" required>
-                    
-                    <label for="auteur">Auteur :</label>
-                    <input type="text" id="auteur" required>
-                    
-                    <label for="isbn">ISBN :</label>
-                    <input type="text" id="isbn" required>
-                    
-                    <label for="annee">Année de publication :</label>
-                    <input type="number" id="annee" required>
-                    
-                    <label for="categorie">Catégorie :</label>
-                    <input type="text" id="categorie" required>
-                    
-                    <div style="margin-top: 10px;">
-                        <button type="submit" id="btnSoumettre">Enregistrer</button>
-                        <button type="button" onclick="annulerFormulaire()">Annuler</button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Tableau des livres -->
-            <div style="margin-top: 30px;">
-                <h3>Liste des livres</h3>
-                <table id="tableLivres">
-                    <thead>
-                        <tr>
-                            <th>Titre</th>
-                            <th>Auteur</th>
-                            <th>ISBN</th>
-                            <th>Année</th>
-                            <th>Catégorie</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="corpsTableLivres">
-                        <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- SECTION AUTEURS -->
-        <div id="section-auteurs" class="section" style="display: none;">
+            <!-- Table pour afficher la liste des livres -->
+            <table id="livreTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titre</th>
+                        <th>ID Auteur</th>
+                        <th>ID Catégorie</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Section Auteurs (masquée par défaut) -->
+        <div id="auteurs" class="entite-section">
             <h2>Gestion des Auteurs</h2>
-            <p>Ici viendra le formulaire et le tableau des auteurs.</p>
-        </div>
-
-        <!-- SECTION ADHÉRENTS -->
-      <!-- Section Adhérents -->
-<section id="section-adherents" class="section" style="display: none;">
-    <h2>Gestion des Adhérents</h2>
-    
-    <button id="btnAjouterAdherent" onclick="afficherFormulaireAjoutAdherent()" style="margin-bottom: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
-        +Ajouter un adhérent
-    </button>
-    
-    <!-- Formulaire d'adhérent -->
-    <div id="formulaireAdherent" style="display: none; margin-bottom: 30px; padding: 20px; border:  1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
-        <h3 id="titreFormulaireAdherent">Ajouter un adhérent</h3>
-        <form id="formAdherent">
-            <input type="hidden" id="adherentId" value="">
+            <!-- Bouton pour ajouter un nouvel auteur -->
+            <button onclick="afficherFormulaireAuteur()">Ajouter un auteur</button>
             
-            <div style="margin-bottom: 15px;">
+            <!-- Formulaire pour ajouter/modifier un auteur (masqué par défaut) -->
+            <form id="auteurForm" onsubmit="ajouterOuModifierAuteur(event)">
+                <h3 id="formTitreAuteur">Ajouter un auteur</h3>
+                <!-- Champ caché pour stocker l'index de l'auteur en modification -->
+                <input type="hidden" id="auteurId">
                 <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
-            
-            <div style="margin-bottom: 15px;">
+                <input type="text" id="nom" required>
                 <label for="prenom">Prénom :</label>
-                <input type="text" id="prenom" name="prenom" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
+                <input type="text" id="prenom" required>
+                <label for="dateNaissance">Date de naissance :</label>
+                <input type="date" id="dateNaissance" required>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="cacherFormulaireAuteur()">Annuler</button>
+            </form>
             
-            <div style="margin-bottom: 15px;">
+            <!-- Table pour afficher la liste des auteurs -->
+            <table id="auteurTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Date de naissance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Section Adhérents (masquée par défaut) -->
+        <div id="adherents" class="entite-section">
+            <h2>Gestion des Adhérents</h2>
+            <!-- Bouton pour ajouter un nouvel adhérent -->
+            <button onclick="afficherFormulaireAdherent()">Ajouter un adhérent</button>
+            
+            <!-- Formulaire pour ajouter/modifier un adhérent (masqué par défaut) -->
+            <form id="adherentForm" onsubmit="ajouterOuModifierAdherent(event)">
+                <h3 id="formTitreAdherent">Ajouter un adhérent</h3>
+                <!-- Champ caché pour stocker l'index de l'adhérent en modification -->
+                <input type="hidden" id="adherentId">
+                <label for="nomAdherent">Nom :</label>
+                <input type="text" id="nomAdherent" required>
+                <label for="prenomAdherent">Prénom :</label>
+                <input type="text" id="prenomAdherent" required>
                 <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required style="width:  100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
-            
-            <div style="margin-bottom: 15px;">
+                <input type="email" id="email" required>
                 <label for="telephone">Téléphone :</label>
-                <input type="tel" id="telephone" name="telephone" required style="width: 100%; padding: 8px; border:  1px solid #ddd; border-radius: 4px;">
-            </div>
+                <input type="tel" id="telephone" required>
+                <label for="dateInscription">Date d'inscription :</label>
+                <input type="date" id="dateInscription" required>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="cacherFormulaireAdherent()">Annuler</button>
+            </form>
             
-            <div style="margin-bottom: 15px;">
-                <label for="dateAdhesion">Date d'adhésion :</label>
-                <input type="date" id="dateAdhesion" name="dateAdhesion" required style="width:  100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-            </div>
-            
-            <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
-                 Valider
-            </button>
-            <button type="button" onclick="annulerFormulaireAdherent()" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                 Annuler
-            </button>
-        </form>
-    </div>
-    
-    <!-- Tableau des adhérents -->
-    <table style="width: 100%; border-collapse: collapse; margin-top:  20px;">
-        <thead>
-            <tr style="background-color: #007bff; color: white;">
-                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Nom</th>
-                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Prénom</th>
-                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Email</th>
-                <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Téléphone</th>
-                <th style="padding: 12px; text-align: left; border:  1px solid #ddd;">Date d'adhésion</th>
-                <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Actions</th>
-            </tr>
-        </thead>
-        <tbody id="corpsTableAdherents">
-            <tr><td colspan="6" style="text-align: center; padding: 20px;">Aucun adhérent enregistré</td></tr>
-        </tbody>
-    </table>
-</section>
-        <!-- SECTION EMPRUNTS -->
-        <div id="section-emprunts" class="section" style="display: none;">
+            <!-- Table pour afficher la liste des adhérents -->
+            <table id="adherentTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Date d'inscription</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Section Emprunts (masquée par défaut) -->
+        <div id="emprunts" class="entite-section">
             <h2>Gestion des Emprunts</h2>
-            <p>(À compléter plus tard)</p>
+            <!-- Bouton pour ajouter un nouvel emprunt -->
+            <button onclick="afficherFormulaireEmprunt()">Ajouter un emprunt</button>
+            
+            <!-- Formulaire pour ajouter/modifier un emprunt (masqué par défaut) -->
+            <form id="empruntForm" onsubmit="ajouterOuModifierEmprunt(event)">
+                <h3 id="formTitreEmprunt">Ajouter un emprunt</h3>
+                <!-- Champ caché pour stocker l'index de l'emprunt en modification -->
+                <input type="hidden" id="empruntId">
+                <label for="livreIdEmprunt">ID Livre :</label>
+                <input type="number" id="livreIdEmprunt" required>
+                <label for="adherentIdEmprunt">ID Adhérent :</label>
+                <input type="number" id="adherentIdEmprunt" required>
+                <label for="dateEmprunt">Date d'emprunt :</label>
+                <input type="date" id="dateEmprunt" required>
+                <label for="dateRetourPrevue">Date de retour prévue :</label>
+                <input type="date" id="dateRetourPrevue" required>
+                <label for="statut">Statut :</label>
+                <select id="statut" required>
+                    <option value="En cours">En cours</option>
+                    <option value="Retourné">Retourné</option>
+                </select>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="cacherFormulaireEmprunt()">Annuler</button>
+            </form>
+            
+            <!-- Table pour afficher la liste des emprunts -->
+            <table id="empruntTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID Livre</th>
+                        <th>ID Adhérent</th>
+                        <th>Date d'emprunt</th>
+                        <th>Date retour prévue</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                </tbody>
+            </table>
         </div>
-
-        <!-- SECTION CATÉGORIES -->
-        <div id="section-categories" class="section" style="display: none;">
+        
+        <!-- Section Catégories (masquée par défaut) -->
+        <div id="categories" class="entite-section">
             <h2>Gestion des Catégories</h2>
-            <p>(À compléter plus tard)</p>
+            <!-- Bouton pour ajouter une nouvelle catégorie -->
+            <button onclick="afficherFormulaireCategorie()">Ajouter une catégorie</button>
+            
+            <!-- Formulaire pour ajouter/modifier une catégorie (masqué par défaut) -->
+            <form id="categorieForm" onsubmit="ajouterOuModifierCategorie(event)">
+                <h3 id="formTitreCategorie">Ajouter une catégorie</h3>
+                <!-- Champ caché pour stocker l'index de la catégorie en modification -->
+                <input type="hidden" id="categorieId">
+                <label for="nomCategorie">Nom de la catégorie :</label>
+                <input type="text" id="nomCategorie" required>
+                <label for="description">Description :</label>
+                <textarea id="description" rows="3"></textarea>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="cacherFormulaireCategorie()">Annuler</button>
+            </form>
+            
+            <!-- Table pour afficher la liste des catégories -->
+            <table id="categorieTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement par JavaScript -->
+                </tbody>
+            </table>
         </div>
-
     </div>
-
     <script src="script.js"></script>
-
+    <script src="livres.js"></script>
+    <script src="auteurs.js"></script>
+    <script src="adherents.js"></script>
+    <script src="emprunts.js"></script>
+    <script src="categories.js"></script>
 </body>
 </html>
