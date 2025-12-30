@@ -1,0 +1,74 @@
+/* ============================================
+   FICHIER: auteurs.css
+   Styles CSS spécifiques à l'entité Auteurs
+   ============================================ */
+
+/* Style pour la section auteurs (masquée par défaut) */
+#auteurs {
+    display: none;
+}
+
+/* Style pour le bouton "Ajouter un auteur" */
+#auteurs button[onclick="afficherFormulaireAuteur()"] {
+    margin-bottom: 20px;
+}
+
+/* Style pour le formulaire d'ajout/modification d'auteur (masqué par défaut) */
+#auteurForm {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+/* Style pour les labels du formulaire auteur */
+#auteurForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style pour les inputs du formulaire auteur */
+#auteurForm input[type="text"],
+#auteurForm input[type="date"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style pour les boutons du formulaire auteur */
+#auteurForm button {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+/* Style pour le tableau des auteurs */
+#auteurTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Style pour les cellules du tableau des auteurs */
+#auteurTable th,
+#auteurTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style pour l'en-tête du tableau des auteurs */
+#auteurTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style pour les boutons d'action dans le tableau */
+#auteurTable button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+

@@ -1,0 +1,76 @@
+/* ============================================
+   FICHIER: adherents.css
+   Styles CSS spécifiques à l'entité Adhérents
+   ============================================ */
+
+/* Style pour la section adherents (masquée par défaut) */
+#adherents {
+    display: none;
+}
+
+/* Style pour le bouton "Ajouter un adhérent" */
+#adherents button[onclick="afficherFormulaireAdherent()"] {
+    margin-bottom: 20px;
+}
+
+/* Style pour le formulaire d'ajout/modification d'adhérent (masqué par défaut) */
+#adherentForm {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+/* Style pour les labels du formulaire adhérent */
+#adherentForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style pour les inputs du formulaire adhérent */
+#adherentForm input[type="text"],
+#adherentForm input[type="email"],
+#adherentForm input[type="tel"],
+#adherentForm input[type="date"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style pour les boutons du formulaire adhérent */
+#adherentForm button {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+/* Style pour le tableau des adhérents */
+#adherentTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Style pour les cellules du tableau des adhérents */
+#adherentTable th,
+#adherentTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style pour l'en-tête du tableau des adhérents */
+#adherentTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style pour les boutons d'action dans le tableau */
+#adherentTable button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+

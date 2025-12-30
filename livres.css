@@ -1,0 +1,74 @@
+/* ============================================
+   FICHIER: livres.css
+   Styles CSS spécifiques à l'entité Livres
+   ============================================ */
+
+/* Style pour la section livres (masquée par défaut) */
+#livres {
+    display: none;
+}
+
+/* Style pour le bouton "Ajouter un livre" */
+#livres button[onclick="afficherFormulaireLivre()"] {
+    margin-bottom: 20px;
+}
+
+/* Style pour le formulaire d'ajout/modification de livre (masqué par défaut) */
+#livreForm {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+/* Style pour les labels du formulaire livre */
+#livreForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style pour les inputs du formulaire livre */
+#livreForm input[type="text"],
+#livreForm input[type="number"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style pour les boutons du formulaire livre */
+#livreForm button {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+/* Style pour le tableau des livres */
+#livreTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Style pour les cellules du tableau des livres */
+#livreTable th,
+#livreTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style pour l'en-tête du tableau des livres */
+#livreTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style pour les boutons d'action dans le tableau */
+#livreTable button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+

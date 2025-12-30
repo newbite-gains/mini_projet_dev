@@ -1,0 +1,80 @@
+/* ============================================
+   FICHIER: categories.css
+   Styles CSS spécifiques à l'entité Catégories
+   ============================================ */
+
+/* Style pour la section categories (masquée par défaut) */
+#categories {
+    display: none;
+}
+
+/* Style pour le bouton "Ajouter une catégorie" */
+#categories button[onclick="afficherFormulaireCategorie()"] {
+    margin-bottom: 20px;
+}
+
+/* Style pour le formulaire d'ajout/modification de catégorie (masqué par défaut) */
+#categorieForm {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+/* Style pour les labels du formulaire catégorie */
+#categorieForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Style pour les inputs du formulaire catégorie */
+#categorieForm input[type="text"],
+#categorieForm textarea {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style pour le textarea (zone de texte) */
+#categorieForm textarea {
+    resize: vertical;
+    font-family: Arial, sans-serif;
+}
+
+/* Style pour les boutons du formulaire catégorie */
+#categorieForm button {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+/* Style pour le tableau des catégories */
+#categorieTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Style pour les cellules du tableau des catégories */
+#categorieTable th,
+#categorieTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style pour l'en-tête du tableau des catégories */
+#categorieTable th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style pour les boutons d'action dans le tableau */
+#categorieTable button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
