@@ -26,8 +26,7 @@
 ## 📝 Thème Choisi
 <!-- Indiquez le thème choisi parmi la liste ou votre sujet personnalisé -->
 *   Thème : Gestion de Bibliothèque 
-*   **Description :** Une brève explication du but de l'application.
-*   Application Backoffice de gestion bibliothèque qui gère 5 entités : Livres / Auteurs / Adhérents/ Emprunts / Catégories.
+*   **Description :** Application Backoffice de gestion bibliothèque qui gère 5 entités : Livres / Auteurs / Adhérents/ Emprunts / Catégories.
 
 
 ---
